@@ -1,0 +1,46 @@
+{
+  "name": "djia",
+  "description": "The most recent Dow Jones opening for a date.",
+  "version": "1.0.0",
+  "author": "Luke Karrys",
+  "bugs": {
+    "url": "https://github.com/lukekarrys/djia/issues"
+  },
+  "dependencies": {
+    "debug": "^2.1.3",
+    "flat-cache": "^1.0.3",
+    "request": "^2.55.0"
+  },
+  "devDependencies": {
+    "babel": "^5.2.6",
+    "babel-tape-runner": "^1.1.0",
+    "moment": "^2.10.2",
+    "precommit-hook": "^2.0.1",
+    "standard": "^3.7.2",
+    "tap-spec": "^3.0.0",
+    "tape": "^4.0.0"
+  },
+  "homepage": "https://github.com/lukekarrys/djia",
+  "keywords": [
+    "djia",
+    "dow jones",
+    "stock market",
+    "xkcd"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lukekarrys/djia.git"
+  },
+  "scripts": {
+    "compile": "babel src --out-dir lib",
+    "lint": "standard .",
+    "prepublish": "npm run compile",
+    "test": "babel-tape-runner test/*.js | tap-spec"
+  }
+}
