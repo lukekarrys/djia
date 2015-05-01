@@ -27,3 +27,5 @@ build/Release
 node_modules
 
 .validate.json
+.jshintignore
+.jshintrc

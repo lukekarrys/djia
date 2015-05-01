@@ -2,33 +2,40 @@ import fs from 'fs'
 import path from 'path'
 import test from 'tape'
 import moment from 'moment'
+import rimraf from 'rimraf'
 
 import djia from '../src/index'
 
+const date = '2015-03-27'
+const DOW_VALUE = 17673.63
+
 test('Can fetch from server', (t) => {
-  djia('2015-03-27', (err, val) => {
+  djia(date, (err, val) => {
     t.equal(err, null, 'No error')
-    t.equal(val, 17673.63, 'Amount is correct')
+    t.equal(val, DOW_VALUE, 'Amount is correct')
     t.end()
   })
 })
 
 test('Can fetch from server and cache and then retrieve from cache', (t) => {
-  const cache = path.resolve(__dirname, '..')
-  const cacheFile = path.join(cache, 'dija.json')
+  const topCacheDir = path.join(path.resolve(__dirname, '..'), 'testcache')
+  const cache = path.join(topCacheDir, 'testcache2')
+  const cacheFile = path.join(cache, 'cache.json')
 
-  djia({date: '2015-03-27', cache}, (err, val) => {
+  djia({date, cache}, (err, val) => {
     t.equal(fs.existsSync(cacheFile), true, 'Cache file exists')
     t.equal(err, null, 'No error')
-    t.equal(val, 17673.63, 'Amount is correct')
+    t.equal(val, DOW_VALUE, 'Amount is correct')
 
-    djia({date: '2015-03-27', cache}, (err, val) => {
+    djia({date, cache}, (err, val) => {
       t.equal(fs.existsSync(cacheFile), true, 'Cache file exists')
       t.equal(err, null, 'No error')
-      t.equal(val, 17673.63, 'Amount is correct')
-      fs.unlinkSync(cacheFile)
-      t.equal(fs.existsSync(cacheFile), false, 'Cache file is deleted')
-      t.end()
+      t.equal(val, DOW_VALUE, 'Amount is correct')
+      rimraf(topCacheDir, (err) => {
+        t.equal(err, null, 'Cache dir is deleted')
+        t.equal(fs.existsSync(cacheFile), false, 'Cache file is deleted')
+        t.end()
+      })
     })
   })
 })
@@ -42,10 +49,7 @@ test('Too old', (t) => {
 })
 
 test('Too new', (t) => {
-  // Next tuesday since sometimes market is closed on monday
-  // This might not always work, but I'm not sure what the bulletproof
-  // logic for this would look like
-  djia(moment().day(10).format('YYYY-MM-DD'), (err) => {
+  djia('2999-01-01', (err) => {
     t.equal(err instanceof Error, true, 'Error is an error')
     t.equal(err.message, 'data not available yet', 'Error says data isn\'t available')
     t.end()

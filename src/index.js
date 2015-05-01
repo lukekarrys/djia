@@ -22,11 +22,12 @@ const dow = (options, cb) => {
   if (!date) return cb(new Error('A date must be specified'))
 
   if (cacheDir) {
+    debug(`Cache: ${cacheDir}`)
     cache = flatCache.load(CACHE_NAME, cacheDir)
     cacheVal = cache.getKey(date)
+  } else {
+    debug('No cache')
   }
-
-  debug(`Cache: ${cacheDir}`)
 
   if (cacheVal) {
     debug(`From cache: ${cacheVal}`)
@@ -41,12 +42,14 @@ const dow = (options, cb) => {
       debug(`Response: ${value}`)
 
       if (success && typeof numValue === 'number' && !isNaN(numValue)) {
-        cache && cache.setKey(date, numValue)
-        cache && cache.save()
-        debug(`Save cache: ${date}:${numValue}`)
+        if (cache) {
+          cache.setKey(date, numValue)
+          cache.save()
+          debug(`Save cache: ${date}:${numValue}`)
+        }
         cb(null, numValue)
       } else {
-        cb(new Error(value.replace('error ', '')))
+        cb(new Error(value.replace(/^error /, '')))
       }
     })
   }
