@@ -11,7 +11,11 @@ I use this for [xkcd Geohashing](https://xkcd.com/426/).
 [![Build Status](https://travis-ci.org/lukekarrys/djia.png?branch=master)](https://travis-ci.org/lukekarrys/djia)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
+
+## Install
+
 `npm install djia`
+
 
 ## Usage
 
