@@ -2,6 +2,7 @@ import request from 'request'
 import debugThe from 'debug'
 import flatCache from 'flat-cache'
 import path from 'path'
+import dz from 'dezalgo'
 
 const debug = debugThe('djia')
 const DJIA_URL = 'http://geo.crox.net/djia/'
@@ -11,6 +12,9 @@ const CACHE_NAME = 'cache.json'
 
 const dow = (options, cb) => {
   let date, cacheDir, cache, cacheVal
+
+  // Th͏e Da҉rk Pońy Lo͘r͠d HE ́C͡OM̴E̸S
+  cb = dz(cb)
 
   if (typeof options === 'string') {
     date = options
