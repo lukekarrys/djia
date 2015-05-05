@@ -28,6 +28,10 @@ const dow = (options, cb) => {
   if (cacheDir) {
     debug(`Cache: ${cacheDir}`)
     cache = flatCache.load(CACHE_NAME, cacheDir)
+    // flat-cache prunes everything not read during this load session
+    // No way to turn it off so we should use a different module, but
+    // for now just make prune a no-op
+    cache._prune = () => {}
     cacheVal = cache.getKey(date)
   } else {
     debug('No cache')
