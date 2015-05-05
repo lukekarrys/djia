@@ -1,7 +1,7 @@
 {
   "name": "djia",
   "description": "The most recent Dow Jones opening for a date.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Luke Karrys",
   "bugs": {
     "url": "https://github.com/lukekarrys/djia/issues"
