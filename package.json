@@ -3,6 +3,7 @@
   "description": "The most recent Dow Jones opening for a date.",
   "version": "1.0.3",
   "author": "Luke Karrys",
+  "browser": "lib/browser.js",
   "bugs": {
     "url": "https://github.com/lukekarrys/djia/issues"
   },
