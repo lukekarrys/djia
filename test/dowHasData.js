@@ -21,6 +21,10 @@ test('has data for today based on time', (t) => {
   const beforeOpen = '2015-05-01' + closedTs
   t.equal(d('2015-05-01', afterOpen), true, 'today and time is past market is open')
   t.equal(d('2015-05-01', beforeOpen), false, 'today and time is before market is open')
+  t.equal(d('2015-05-02', afterOpen), true, 'saturday and time is past market is open')
+  t.equal(d('2015-05-02', beforeOpen), false, 'saturday and time is before market is open')
+  t.equal(d('2015-05-03', afterOpen), true, 'sunday and time is past market is open')
+  t.equal(d('2015-05-03', beforeOpen), false, 'sunday and time is before market is open')
   t.end()
 })
 

@@ -4,10 +4,11 @@ import debugThe from 'debug'
 const debug = debugThe('djia:hasData')
 
 const closedDates = {
+  // Saturday, Sunday
   d: ['6', '0'],
+  // These can be deleted as they pass
+  // New dates can be grabbed from http://wiki.xkcd.com/geohashing/Dow_holiday
   'YYYY-MM-DD': [
-    // These can be deleted as they pass
-    // New dates can be grabbed from http://wiki.xkcd.com/geohashing/Dow_holiday
     '2015-05-25',
     '2015-07-03',
     '2015-09-07',
