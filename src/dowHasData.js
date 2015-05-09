@@ -37,10 +37,10 @@ const marketOpen = (date) => {
 }
 
 const pastOpenBell = (date) => {
-  const nowTime = date.format('HHmm')
-  const isPast = nowTime > '0930'
-  debug(`Current time: ${nowTime} Is open: ${isPast}`)
-  return isPast
+  const time = date.format('HHmm')
+  const pastOpen = time >= '0930'
+  debug(`Current time: ${time} Is open: ${pastOpen}`)
+  return pastOpen
 }
 
 const dowHasData = (date, __now) => {
@@ -60,26 +60,29 @@ const dowHasData = (date, __now) => {
   debug(`Date is same: ${isSameDay }`)
 
   // Anything before this day has valid data
-  if (isBeforeDay) return true
+  if (isBeforeDay) {
+    debug('Date is in the past: true')
+    return true
+  }
 
   // If it the same day and the market will be open, then return true after 9:30am
   // Note that fetching from the data server might not have data
   // at exactly 9:30 but at least we start trying
   if (isSameDay && open) {
+    debug('Date is today and will be open')
     return pastOpenBell(nowDow)
   }
 
   // If it is in the future and the market will be open, return false
   // since eventually we will get data for that day
   if (isAfterDay && open) {
+    debug('Date is in the future and will be open: false')
     return false
   }
 
-  // We have determined that our date is today or the future
-  // And the market will not be open on that day.
-
-  // We work backwards from the requested date the first date that the market
-  // was open.
+  // We have determined that our date is today or in the future
+  // and the market will not be open on that day. We work backwards from the
+  // requested date the first date that the market was open.
   let whileDay = mDate.clone()
   let previousOpenDay
   while (true) {
@@ -92,13 +95,15 @@ const dowHasData = (date, __now) => {
 
   debug(`Previous open day: ${previousOpenDay.format()}`)
 
-  // We have previous open data that is before our requested date.
+  // We have previous open data that is before today.
   // So we are all good.
   if (previousOpenDay.isBefore(nowDow, 'day')) {
+    debug('Previous open day is before now: true')
     return true
   }
 
   if (previousOpenDay.isSame(nowDow, 'day')) {
+    debug('Previous open day is today')
     return pastOpenBell(nowDow)
   }
 

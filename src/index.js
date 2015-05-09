@@ -6,7 +6,7 @@ import dz from 'dezalgo'
 
 import dowHasData from './dowHasData'
 
-const debug = debugThe('djia')
+const debug = debugThe('djia:main')
 
 const DJIA_URL = 'http://geo.crox.net/djia/'
 const HOME_DIR = process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']

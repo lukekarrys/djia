@@ -45,7 +45,7 @@
     "compile": "babel src --out-dir lib",
     "lint": "standard",
     "prepublish": "npm run compile",
-    "test": "babel-tape-runner test/dowHasData.js"
+    "test": "babel-tape-runner test/*.js | tap-spec"
   },
   "standard": {
     "ignore": [
