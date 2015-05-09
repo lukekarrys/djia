@@ -10,6 +10,8 @@
     "debug": "^2.1.3",
     "dezalgo": "^1.0.1",
     "flat-cache": "1.0.3",
+    "moment": "^2.10.2",
+    "moment-timezone": "^0.3.1",
     "request": "^2.55.0"
   },
   "devDependencies": {
@@ -43,7 +45,7 @@
     "compile": "babel src --out-dir lib",
     "lint": "standard",
     "prepublish": "npm run compile",
-    "test": "babel-tape-runner test/*.js | tap-spec"
+    "test": "babel-tape-runner test/dowHasData.js"
   },
   "standard": {
     "ignore": [

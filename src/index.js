@@ -4,7 +4,10 @@ import flatCache from 'flat-cache'
 import path from 'path'
 import dz from 'dezalgo'
 
+import dowHasData from './dowHasData'
+
 const debug = debugThe('djia')
+
 const DJIA_URL = 'http://geo.crox.net/djia/'
 const HOME_DIR = process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
 const DEF_CACHE_DIR = path.join(HOME_DIR, '.config', 'djia')
@@ -24,13 +27,14 @@ const dow = (options, cb) => {
   }
 
   if (!date) return cb(new Error('A date must be specified'))
+  if (!dowHasData(date)) return cb(new Error('data not available yet'))
 
   if (cacheDir) {
     debug(`Cache: ${cacheDir}`)
-    cache = flatCache.load(CACHE_NAME, cacheDir)
     // flat-cache prunes everything not read during this load session
     // No way to turn it off so we should use a different module, but
     // for now just make prune a no-op
+    cache = flatCache.load(CACHE_NAME, cacheDir)
     cache._prune = () => {}
     cacheVal = cache.getKey(date)
   } else {
