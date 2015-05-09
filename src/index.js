@@ -11,10 +11,10 @@ const debug = debugThe('djia:main')
 const DJIA_URL = 'http://geo.crox.net/djia/'
 const HOME_DIR = process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
 const DEF_CACHE_DIR = path.join(HOME_DIR, '.config', 'djia')
-const CACHE_NAME = 'cache.json'
+const DEF_CACHE_NAME = 'djia_cache.json'
 
 const dow = (options, cb) => {
-  let date, cacheDir, cache, cacheVal
+  let date, cacheOpt, cacheDir, cacheName, cache, cacheVal, __now
 
   // Th͏e Da҉rk Pońy Lo͘r͠d HE ́C͡OM̴E̸S
   cb = dz(cb)
@@ -23,18 +23,35 @@ const dow = (options, cb) => {
     date = options
   } else {
     date = options.date
-    cacheDir = options.cache === true ? DEF_CACHE_DIR : options.cache
+    __now = options.__now
+    cacheOpt = options.cache === true ? DEF_CACHE_DIR : options.cache
   }
 
   if (!date) return cb(new Error('A date must be specified'))
-  if (!dowHasData(date)) return cb(new Error('data not available yet'))
+  if (!dowHasData(date, __now)) return cb(new Error('data not available yet'))
 
-  if (cacheDir) {
-    debug(`Cache: ${cacheDir}`)
-    // flat-cache prunes everything not read during this load session
-    // No way to turn it off so we should use a different module, but
-    // for now just make prune a no-op
-    cache = flatCache.load(CACHE_NAME, cacheDir)
+  if (cacheOpt) {
+    // If our cache ends in a part with .json then use that as
+    // the cache name and the rest as the cacheDir
+    const base = path.basename(cacheOpt)
+    const extName = path.extname(base)
+    debug(`Cache option: ${cacheOpt}`)
+    debug(`base/ext: ${base} ${extName}`)
+    if (extName === '.json') {
+      cacheName = base
+      cacheDir = path.dirname(cacheOpt)
+    } else {
+      cacheName = DEF_CACHE_NAME
+      cacheDir = cacheOpt
+    }
+  }
+
+  if (cacheDir && cacheName) {
+    debug(`Cache: ${cacheDir} ${cacheName}`)
+    // flat-cache prunes everything not read during this load session, but
+    // there's no way to turn it off, so we should use a different module, but
+    // for now just make prune a no-op.
+    cache = flatCache.load(cacheName, cacheDir)
     cache._prune = () => {}
     cacheVal = cache.getKey(date)
   } else {

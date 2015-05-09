@@ -27,7 +27,7 @@ test('Can fetch from server', (t) => {
 test('Can fetch from server and cache and then retrieve from cache', (t) => {
   const topCacheDir = path.join(path.resolve(__dirname, '..'), 'testcache')
   const cache = path.join(topCacheDir, 'testcache2')
-  const cacheFile = path.join(cache, 'cache.json')
+  const cacheFile = path.join(cache, 'djia_cache.json')
   let after1 = false
   let after2 = false
 
@@ -59,7 +59,7 @@ test('Can fetch from server and cache and then retrieve from cache', (t) => {
 test('Can cache multiple values', (t) => {
   const topCacheDir = path.join(path.resolve(__dirname, '..'), 'testcache')
   const cache = path.join(topCacheDir, 'testcache2')
-  const cacheFile = path.join(cache, 'cache.json')
+  const cacheFile = path.join(cache, 'djia_cache.json')
 
   djia({date, cache}, (err, val) => {
     t.equal(fs.existsSync(cacheFile), true, 'Cache file exists')
@@ -81,6 +81,23 @@ test('Can cache multiple values', (t) => {
         t.end()
       })
     })
+  })
+})
+
+test('Can cache to a json file', (t) => {
+  const cache = path.join(path.resolve(__dirname, '..'), 'custom_cache.json')
+
+  djia({date, cache}, (err, val) => {
+    t.equal(fs.existsSync(cache), true, 'Cache file exists')
+    t.equal(err, null, 'No error')
+    t.equal(val, DOW_VALUE, 'Amount is correct')
+
+    const cacheVals = JSON.parse(fs.readFileSync(cache))
+    t.equal(cacheVals[date], DOW_VALUE, `Can get cached value directly from file ${date}`)
+
+    fs.unlinkSync(cache)
+    t.equal(fs.existsSync(cache), false, 'Cache file is deleted')
+    t.end()
   })
 })
 

@@ -55,9 +55,13 @@ The first paramter is either a `YYYY-MM-DD` date string or an object of options.
 
 If you are using the object form, then pass in the formatted date string using the `date` key.
 
-#### `options.cache` (optional, can be `true` or path to cache directory)
+#### `options.cache` (optional, can be `true` or path to cache directory/file)
 
-Since the fetched data will never change (it is only for the opening value), it can makes sense to cache it. If you pass in `true` then a cache directory will be created for you at `$HOME/.config/djia`. You can also pass in a path to your own cache directory, it will be created if it does not exist.
+Since the fetched data will never change (it is only for the opening value), it can make sense to cache it. If you pass in `true` then a cache directory will be created for you at `$HOME/.config/djia`.
+
+You can also pass in a path to your own cache directory or a `.json` file, and they will be created if they do not exist.
+
+If your path ends in `.json` thats where the cache will be, otherwise it is assumed you are passing in a direcotry and the path will be `DIRECTORY/djia_cache.json`.
 
 #### `callback(err, value)`
 

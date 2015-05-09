@@ -46,7 +46,7 @@ const pastOpenBell = (date) => {
 const dowHasData = (date, __now) => {
   const mDate = moment(date)
   const open = marketOpen(mDate)
-  const nowDow = moment(__now).tz('America/New_York')
+  const nowDow = (__now ? moment(__now) : moment()).tz('America/New_York')
   const isBeforeDay = mDate.isBefore(nowDow, 'day')
   const isAfterDay = mDate.isAfter(nowDow, 'day')
   const isSameDay = mDate.isSame(nowDow, 'day')
