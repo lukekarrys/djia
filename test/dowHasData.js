@@ -41,8 +41,11 @@ test('this and next weekend data on a friday', (t) => {
   t.end()
 })
 
-test('', (t) => {
+test('weekend data on weekends', (t) => {
   t.equal(d('2015-05-16', '2015-05-16'), true, 'has saturday data on saturday')
+  t.equal(d('2015-05-17', '2015-05-16'), true, 'has sunday data on saturday')
+  t.equal(d('2015-05-16', '2015-05-17'), true, 'has saturday data on sunday')
+  t.equal(d('2015-05-17', '2015-05-17'), true, 'has sunday data on sunday')
   t.end()
 })
 
