@@ -65,3 +65,9 @@ test('memorial day holiday', (t) => {
   t.equal(d(memorialDay, memorialDay), true, 'has memorial day data on memorial day')
   t.end()
 })
+
+test('After midnight in EST but before on west coast', (t) => {
+  t.equal(d('2015-05-12', '2015-05-13T00:45:22-04:00'), true, 'Day before is open')
+  t.equal(d('2015-05-13', '2015-05-13T00:45:22-04:00'), false, 'Day is closed')
+  t.end()
+})

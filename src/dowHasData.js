@@ -46,11 +46,13 @@ const pastOpenBell = (date) => {
 
 const dowHasData = (date, __now) => {
   const mDate = moment(date)
+  const dateFormat = mDate.format('YYYY-MM-DD')
   const open = marketOpen(mDate)
   const nowDow = (__now ? moment(__now) : moment()).tz('America/New_York')
-  const isBeforeDay = mDate.isBefore(nowDow, 'day')
-  const isAfterDay = mDate.isAfter(nowDow, 'day')
-  const isSameDay = mDate.isSame(nowDow, 'day')
+  const dowFormat = nowDow.format('YYYY-MM-DD')
+  const isBeforeDay = dateFormat < dowFormat
+  const isAfterDay = dateFormat > dowFormat
+  const isSameDay = dateFormat === dowFormat
 
   __now && debug(`Mocking time to: ${__now}`)
   debug(`Date: ${mDate.format()}`)
