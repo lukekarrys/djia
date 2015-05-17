@@ -11,17 +11,22 @@
     "debug": "^2.1.3",
     "dezalgo": "^1.0.1",
     "flat-cache": "1.0.3",
-    "request": "^2.55.0"
+    "request": "^2.55.0",
+    "xhr": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^5.2.6",
     "babel-tape-runner": "^1.1.0",
+    "babelify": "^6.1.1",
+    "browserify": "^10.2.0",
     "moment": "^2.10.2",
+    "phantomjs": "^1.9.16",
     "precommit-hook": "^2.0.1",
     "rimraf": "^2.3.3",
     "standard": "^3.7.2",
     "tap-spec": "^3.0.0",
-    "tape": "^4.0.0"
+    "tape": "^4.0.0",
+    "tape-run": "^1.0.0"
   },
   "homepage": "https://github.com/lukekarrys/djia",
   "keywords": [
@@ -41,10 +46,11 @@
     "url": "git@github.com:lukekarrys/djia.git"
   },
   "scripts": {
+    "browser-test": "browserify test/browser.js -t babelify | tape-run | tap-spec",
     "compile": "babel src --out-dir lib",
     "lint": "standard",
     "prepublish": "npm run compile",
-    "test": "babel-tape-runner test/*.js | tap-spec"
+    "test": "babel-tape-runner test/index.js | tap-spec"
   },
   "standard": {
     "ignore": [

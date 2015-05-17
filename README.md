@@ -77,8 +77,7 @@ This is written in ES6 and compiled to ES5 using [`babel`](https://babeljs.io/).
 
 ## TODO
 
-- Make it work in the browser
-- Option to cache in browser with local storage
+- Option to cache in browser/react-native
 
 
 ## License
