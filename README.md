@@ -55,9 +55,15 @@ The first paramter is either a `YYYY-MM-DD` date string or an object of options.
 
 If you are using the object form, then pass in the formatted date string using the `date` key.
 
-#### `options.cache` (optional, can be `true` or path to cache directory)
+#### `options.cache` (optional, can be `true` or path to cache directory/file in node or cache prefix in the browser)
 
-Since the fetched data will never change (it is only for the opening value), it can makes sense to cache it. If you pass in `true` then a cache directory will be created for you at `$HOME/.config/djia`. You can also pass in a path to your own cache directory, it will be created if it does not exist.
+Since the fetched data will never change (it is only for the opening value), it can make sense to cache it. There are slight differences in how this works if you are using it in the browser vs Node.
+
+**Node**
+If you pass in `true` then a cache directory will be created for you at `$HOME/.config/djia`. You can also pass in a path to your own cache directory or a `.json` file, and they will be created if they do not exist. If your path ends in `.json` thats where the cache will be, otherwise it is assumed you are passing in a direcotry and the path will be `DIRECTORY/djia_cache.json`.
+
+**Browser**
+It will use [`localforage`](https://www.npmjs.com/package/localforage) to cache everything. If you pass in `true` then each key will be prefixed with `djia_`, otherwise pass in a string and it will use that. The key format is `PREFIX_DATE`.
 
 #### `callback(err, value)`
 
@@ -73,11 +79,6 @@ This is written in ES6 and compiled to ES5 using [`babel`](https://babeljs.io/).
 ## Tests
 
 `npm test`
-
-
-## TODO
-
-- Option to cache in browser/react-native
 
 
 ## License

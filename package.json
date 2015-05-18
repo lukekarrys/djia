@@ -1,16 +1,24 @@
 {
   "name": "djia",
   "description": "The most recent Dow Jones opening for a date.",
-  "version": "1.0.3",
+  "version": "1.1.3",
   "author": "Luke Karrys",
   "browser": "lib/browser.js",
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/lukekarrys/djia/issues"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "debug": "^2.1.3",
-    "dezalgo": "^1.0.1",
     "flat-cache": "1.0.3",
+    "localforage": "^1.2.2",
+    "moment": "^2.10.2",
+    "moment-timezone": "^0.3.1",
     "request": "^2.55.0",
     "xhr": "^2.0.1"
   },
@@ -19,11 +27,13 @@
     "babel-tape-runner": "^1.1.0",
     "babelify": "^6.1.1",
     "browserify": "^10.2.0",
+    "function-bind": "^1.0.2",
     "moment": "^2.10.2",
     "phantomjs": "^1.9.16",
     "precommit-hook": "^2.0.1",
     "rimraf": "^2.3.3",
-    "standard": "^3.7.2",
+    "run-browser": "^2.0.2",
+    "standard": "^3.9.0",
     "tap-spec": "^3.0.0",
     "tape": "^4.0.0",
     "tape-run": "^1.0.0"
@@ -41,16 +51,19 @@
     "lint",
     "test"
   ],
+  "react-native": "lib/react-native.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:lukekarrys/djia.git"
   },
   "scripts": {
-    "browser-test": "browserify test/browser.js -t babelify | tape-run | tap-spec",
+    "browser-start": "run-browser test/browser.js",
+    "browser-test": "browserify test/browser.js | tape-run | tap-spec",
     "compile": "babel src --out-dir lib",
     "lint": "standard",
+    "node-test": "babel-tape-runner test/{index,dowHasData}.js | tap-spec",
     "prepublish": "npm run compile",
-    "test": "babel-tape-runner test/index.js | tap-spec"
+    "test": "npm run node-test && npm run browser-test"
   },
   "standard": {
     "ignore": [

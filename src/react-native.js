@@ -1,12 +1,12 @@
 import xhr from 'xhr'
-import localForage from 'localforage'
+import {AsyncStorage} from 'react-native'
 import debugThe from 'debug'
 
 import djia from './main'
 
-const debug = debugThe('djia:browser')
-const DJIA_URL = 'http://jsonp.afeld.me/?url=http://geo.crox.net/djia/'
-const DEF_CACHE_PREFIX = 'djia_'
+const debug = debugThe('djia:react-native')
+const DJIA_URL = 'http://geo.crox.net/djia/'
+const DEF_CACHE_PREFIX = '@djia:'
 
 const dow = (options, cb) => {
   let cachePrefix, cacheMethods
@@ -19,10 +19,16 @@ const dow = (options, cb) => {
     debug(`Cache prefix: ${cachePrefix}`)
     cacheMethods = {
       get (date, _cb) {
-        localForage.getItem(cachePrefix + date, _cb)
+        AsyncStorage.getItem(cachePrefix + date)
+        .then((value) => _cb(null, value))
+        .catch((err) => _cb(err))
+        .done()
       },
       set (date, value, _cb) {
-        localForage.setItem(cachePrefix + date, value, _cb)
+        AsyncStorage.setItem(cachePrefix + date, value)
+        .then(() => _cb(null))
+        .catch((err) => _cb(err))
+        .done()
       }
     }
   } else {

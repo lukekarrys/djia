@@ -2,65 +2,62 @@ import request from 'request'
 import debugThe from 'debug'
 import flatCache from 'flat-cache'
 import path from 'path'
-import dz from 'dezalgo'
 
-const debug = debugThe('djia')
+import djia from './main'
+
+const debug = debugThe('djia:node')
 const DJIA_URL = 'http://geo.crox.net/djia/'
 const HOME_DIR = process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
 const DEF_CACHE_DIR = path.join(HOME_DIR, '.config', 'djia')
-const CACHE_NAME = 'cache.json'
+const DEF_CACHE_NAME = 'djia_cache.json'
 
 const dow = (options, cb) => {
-  let date, cacheDir, cache, cacheVal
+  let cacheOpt, cacheName, cacheDir, cache, cacheMethods
 
-  // Th͏e Da҉rk Pońy Lo͘r͠d HE ́C͡OM̴E̸S
-  cb = dz(cb)
-
-  if (typeof options === 'string') {
-    date = options
-  } else {
-    date = options.date
-    cacheDir = options.cache === true ? DEF_CACHE_DIR : options.cache
+  if (typeof options === 'object') {
+    cacheOpt = options.cache === true ? DEF_CACHE_DIR : options.cache
   }
 
-  if (!date) return cb(new Error('A date must be specified'))
+  if (cacheOpt) {
+    debug(`Cache option: ${cacheOpt}`)
 
-  if (cacheDir) {
-    debug(`Cache: ${cacheDir}`)
-    cache = flatCache.load(CACHE_NAME, cacheDir)
-    // flat-cache prunes everything not read during this load session
-    // No way to turn it off so we should use a different module, but
-    // for now just make prune a no-op
+    // If our cache ends in a part with .json then use that as
+    // the cache name and the rest as the cacheDir
+    const base = path.basename(cacheOpt)
+    const extName = path.extname(base)
+    debug(`base/ext: ${base} ${extName}`)
+
+    if (extName === '.json') {
+      cacheName = base
+      cacheDir = path.dirname(cacheOpt)
+    } else {
+      cacheName = DEF_CACHE_NAME
+      cacheDir = cacheOpt
+    }
+
+    debug(`Cache: ${cacheDir} ${cacheName}`)
+
+    // flat-cache prunes everything not read during this load session, but
+    // there's no way to turn it off, so we should use a different module, but
+    // for now just make prune a no-op.
+    cache = flatCache.load(cacheName, cacheDir)
     cache._prune = () => {}
-    cacheVal = cache.getKey(date)
-  } else {
-    debug('No cache')
-  }
 
-  if (cacheVal) {
-    debug(`From cache: ${cacheVal}`)
-    cb(null, cacheVal)
-  } else {
-    request(DJIA_URL + date, (error, response, body) => {
-      const success = !error && response.statusCode === 200
-      const value = body.replace(/\n/g, ' ')
-      const numValue = Number(value)
-
-      debug(`Code: ${response.statusCode}`)
-      debug(`Response: ${value}`)
-
-      if (success && typeof numValue === 'number' && !isNaN(numValue)) {
-        if (cache) {
-          cache.setKey(date, numValue)
-          cache.save()
-          debug(`Save cache: ${date}:${numValue}`)
-        }
-        cb(null, numValue)
-      } else {
-        cb(new Error(value.replace(/^error /, '')))
+    cacheMethods = {
+      get (date, _cb) {
+        _cb(null, cache.getKey(date))
+      },
+      set (date, value, _cb) {
+        cache.setKey(date, value)
+        cache.save()
+        _cb(null)
       }
-    })
+    }
+  } else {
+    debug('No cache option')
   }
+
+  djia(options, DJIA_URL, cacheMethods, request, cb)
 }
 
 export default dow
