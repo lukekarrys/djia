@@ -83,7 +83,7 @@ test('Can cache multiple values', (t) => {
 test('Too old', (t) => {
   djia('1900-01-01', (err) => {
     t.equal(err instanceof Error, true, 'Error is an error')
-    t.equal(err.message, 'data not available', 'Error says date is too old')
+    t.equal(err.message, 'date too much in the past', 'Error says date is too old')
     t.end()
   })
 })

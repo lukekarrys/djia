@@ -46,12 +46,14 @@
     "xkcd"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "pre-commit": [
     "lint",
     "test"
   ],
-  "react-native": "lib/react-native.js",
+  "react-native": {
+    "./lib/index.js": "./lib/react-native.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:lukekarrys/djia.git"
