@@ -5,7 +5,7 @@ import debugThe from 'debug'
 import djia from './main'
 
 const debug = debugThe('djia:browser')
-const DJIA_URL = 'http://jsonp.afeld.me/?url=http://geo.crox.net/djia/'
+const DJIA_URL = 'http://crossorigin.me/http://geo.crox.net/djia/'
 const DEF_CACHE_PREFIX = 'djia_'
 
 const dow = (options, cb) => {

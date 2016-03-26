@@ -65,6 +65,17 @@ test('memorial day holiday', (t) => {
   t.end()
 })
 
+test('4th of july on a tuesday', (t) => {
+  const july4 = '2017-07-04'
+  const before = '2017-07-03'
+  const after = '2017-07-05'
+  t.equal(d(july4, before + openTs), true, 'has july 4 data the day before after market is open')
+  t.equal(d(july4, before + closedTs), false, 'no july 4 data the previous day before market is open')
+  t.equal(d(july4, july4), true, 'has july 4 data on july 4')
+  t.equal(d(july4, after), true, 'has july 4 data after')
+  t.end()
+})
+
 test('After midnight in EST but before on west coast', (t) => {
   t.equal(d('2015-05-12', '2015-05-13T00:45:22-04:00'), true, 'Day before is open')
   t.equal(d('2015-05-13', '2015-05-13T00:45:22-04:00'), false, 'Day is closed')
