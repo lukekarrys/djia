@@ -1,5 +1,6 @@
 import debugThe from 'debug'
-import async from 'async'
+import waterfall from 'async/waterfall'
+import asyncify from 'async/ensureAsync'
 
 import dowHasData from './dowHasData'
 
@@ -101,9 +102,9 @@ const dow = (options, url, cache, request, cb) => {
         _cb(null, data)
       }
     }
-  ]
+  ].map(fn => asyncify(fn))
 
-  async.waterfall(tasks, (err, result) => {
+  waterfall(tasks, (err, result) => {
     if (err) return cb(err)
 
     const djia = Number(result.djia)

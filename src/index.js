@@ -36,12 +36,7 @@ const dow = (options, cb) => {
     }
 
     debug(`Cache: ${cacheDir} ${cacheName}`)
-
-    // flat-cache prunes everything not read during this load session, but
-    // there's no way to turn it off, so we should use a different module, but
-    // for now just make prune a no-op.
     cache = flatCache.load(cacheName, cacheDir)
-    cache._prune = () => {}
 
     cacheMethods = {
       get (date, _cb) {
@@ -49,7 +44,7 @@ const dow = (options, cb) => {
       },
       set (date, value, _cb) {
         cache.setKey(date, value)
-        cache.save()
+        cache.save(true) // Dont prune
         _cb(null)
       }
     }

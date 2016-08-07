@@ -13,30 +13,30 @@
     "url": "https://github.com/lukekarrys/djia/issues"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "debug": "^2.1.3",
-    "flat-cache": "1.0.3",
-    "localforage": "^1.2.2",
-    "moment": "^2.10.2",
-    "moment-timezone": "^0.3.1",
-    "request": "^2.55.0",
-    "xhr": "^2.0.1"
+    "async": "^2.0.1",
+    "debug": "^2.2.0",
+    "flat-cache": "^1.2.1",
+    "localforage": "^1.4.2",
+    "moment": "^2.14.1",
+    "moment-timezone": "^0.5.5",
+    "request": "^2.74.0",
+    "xhr": "^2.2.2"
   },
   "devDependencies": {
-    "babel": "^5.2.6",
-    "babel-tape-runner": "^1.1.0",
-    "babelify": "^6.1.1",
-    "browserify": "^10.2.0",
-    "function-bind": "^1.0.2",
-    "moment": "^2.10.2",
-    "phantomjs": "^1.9.16",
-    "precommit-hook": "^2.0.1",
-    "rimraf": "^2.3.3",
+    "babel-cli": "^6.5.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-tape-runner": "^2.0.1",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "electron-prebuilt": "^1.3.2",
+    "git-validate": "^2.1.4",
+    "moment": "^2.14.1",
+    "rimraf": "^2.5.4",
     "run-browser": "^2.0.2",
-    "standard": "^3.9.0",
-    "tap-spec": "^3.0.0",
-    "tape": "^4.0.0",
-    "tape-run": "^1.0.0"
+    "standard": "^7.1.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0",
+    "tape-run": "^2.1.4"
   },
   "homepage": "https://github.com/lukekarrys/djia",
   "keywords": [
@@ -65,7 +65,8 @@
     "lint": "standard",
     "node-test": "babel-tape-runner test/{index,dowHasData}.js | tap-spec",
     "prepublish": "npm run compile",
-    "test": "npm run node-test && npm run browser-test"
+    "test": "npm run node-test && npm run browser-test",
+    "validate": "npm ls"
   },
   "standard": {
     "ignore": [

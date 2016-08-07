@@ -77,9 +77,9 @@ const dowHasData = (date, __now) => {
   debug(`Date: ${mDate.format()}`)
   debug(`Now Dow: ${nowDow.format()}`)
   debug(`Market open: ${open}`)
-  debug(`Date is before: ${isBeforeDay }`)
-  debug(`Date is after: ${isAfterDay }`)
-  debug(`Date is same: ${isSameDay }`)
+  debug(`Date is before: ${isBeforeDay}`)
+  debug(`Date is after: ${isAfterDay}`)
+  debug(`Date is same: ${isSameDay}`)
 
   // Anything before this day has valid data
   if (isBeforeDay) {

@@ -1,12 +1,8 @@
 import test from 'tape'
 import localForage from 'localforage'
-import async from 'async'
+import parallel from 'async/parallel'
 
 import djia from '../src/browser'
-
-if (!Function.prototype.bind) {
-  Function.prototype.bind = require('function-bind') // eslint-disable-line no-extend-native
-}
 
 const date = '2015-03-27'
 const DOW_VALUE = 17673.63
@@ -63,7 +59,7 @@ test('Can cache multiple values', (t) => {
       t.equal(val, DOW_VALUE2, 'Amount is correct')
       t.equal(after2, true)
 
-      async.parallel([
+      parallel([
         (cb) => localForage.getItem('djia_' + date, cb),
         (cb) => localForage.getItem('djia_' + date2, cb)
       ], (err, results) => {
