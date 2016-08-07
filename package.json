@@ -1,7 +1,7 @@
 {
   "name": "djia",
   "description": "The most recent Dow Jones opening for a date.",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "Luke Karrys",
   "browser": "lib/browser.js",
   "browserify": {
