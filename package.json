@@ -51,7 +51,8 @@
   "main": "./lib/index.js",
   "pre-commit": [
     "lint",
-    "test"
+    "test",
+    "validate"
   ],
   "react-native": {
     "./lib/index.js": "./lib/react-native.js"
