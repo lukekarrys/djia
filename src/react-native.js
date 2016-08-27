@@ -5,7 +5,7 @@ import debugThe from 'debug'
 import djia from './main'
 
 const debug = debugThe('djia:react-native')
-const DJIA_URL = 'http://geo.crox.net/djia/'
+const DJIA_URL = 'https://geo.crox.net/djia/'
 const DEF_CACHE_PREFIX = '@djia:'
 
 const dow = (options, cb) => {
