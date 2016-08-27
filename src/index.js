@@ -6,7 +6,7 @@ import path from 'path'
 import djia from './main'
 
 const debug = debugThe('djia:node')
-const DJIA_URL = 'https://geo.crox.net/djia/'
+const DJIA_URL = 'http://geo.crox.net/djia/'
 const HOME_DIR = process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
 const DEF_CACHE_DIR = path.join(HOME_DIR, '.config', 'djia')
 const DEF_CACHE_NAME = 'djia_cache.json'
