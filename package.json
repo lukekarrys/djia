@@ -19,7 +19,7 @@
     "localforage": "^1.4.2",
     "moment": "^2.14.1",
     "moment-timezone": "^0.5.5",
-    "request": "^2.74.0",
+    "request": "^2.75.0",
     "xhr": "^2.2.2"
   },
   "devDependencies": {
