@@ -50,11 +50,13 @@ test('Can cache multiple values', (t) => {
   let after2 = false
 
   djia({date, cache}, (err, val) => {
+    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after1, true)
 
     djia({date: date2, cache}, (err, val) => {
+      console.log(err, val)
       t.equal(err, null, 'No error')
       t.equal(val, DOW_VALUE2, 'Amount is correct')
       t.equal(after2, true)
