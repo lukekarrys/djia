@@ -13,6 +13,7 @@ test('Can fetch from server', (t) => {
   let after = false
 
   djia(date, (err, val) => {
+    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after, true)
@@ -27,11 +28,13 @@ test('Can fetch from server multiple times', (t) => {
   let after2 = false
 
   djia({date}, (err, val) => {
+    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after1, true)
 
     djia({date}, (err, val) => {
+      console.log(err, val)
       t.equal(err, null, 'No error')
       t.equal(val, DOW_VALUE, 'Amount is correct')
       t.equal(after2, true)
@@ -80,6 +83,7 @@ test('Can cache multiple values', (t) => {
 
 test('Too old', (t) => {
   djia('1900-01-01', (err) => {
+    console.log(err)
     t.equal(err instanceof Error, true, 'Error is an error')
     t.equal(err.message, 'date too much in the past', 'Error says date is too old')
     t.end()
@@ -88,6 +92,7 @@ test('Too old', (t) => {
 
 test('Too new', (t) => {
   djia('2999-01-01', (err) => {
+    console.log(err)
     t.equal(err instanceof Error, true, 'Error is an error')
     t.equal(err.message, 'data not available yet', 'Error says data isn\'t available')
     t.end()
