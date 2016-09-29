@@ -1,19 +1,30 @@
 import test from 'tape'
 import localForage from 'localforage'
 import parallel from 'async/parallel'
+import xhr from 'xhr'
+import mock from 'xhr-mock'
 
 import djia from '../src/browser'
 
+xhr.XMLHttpRequest = mock.XMLHttpRequest
+
+const domain = 'https://crossorigin.me/http://geo.crox.net/djia'
 const date = '2015-03-27'
 const DOW_VALUE = 17673.63
 const date2 = '2015-03-26'
 const DOW_VALUE2 = 17716.27
 
+const mockDate = (d, code, body) => mock.get(`${domain}/${d}`, (req, res) => {
+  mock.teardown() // Teardown after each request kinda how `nock` does
+  return res.status(code).body(body.toString())
+})
+
 test('Can fetch from server', (t) => {
   let after = false
 
+  mockDate(date, 200, DOW_VALUE)
+
   djia(date, (err, val) => {
-    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after, true)
@@ -27,14 +38,16 @@ test('Can fetch from server multiple times', (t) => {
   let after1 = false
   let after2 = false
 
+  mockDate(date, 200, DOW_VALUE)
+
   djia({date}, (err, val) => {
-    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after1, true)
 
+    mockDate(date, 200, DOW_VALUE)
+
     djia({date}, (err, val) => {
-      console.log(err, val)
       t.equal(err, null, 'No error')
       t.equal(val, DOW_VALUE, 'Amount is correct')
       t.equal(after2, true)
@@ -52,14 +65,16 @@ test('Can cache multiple values', (t) => {
   let after1 = false
   let after2 = false
 
+  mockDate(date, 200, DOW_VALUE)
+
   djia({date, cache}, (err, val) => {
-    console.log(err, val)
     t.equal(err, null, 'No error')
     t.equal(val, DOW_VALUE, 'Amount is correct')
     t.equal(after1, true)
 
+    mockDate(date2, 200, DOW_VALUE2)
+
     djia({date: date2, cache}, (err, val) => {
-      console.log(err, val)
       t.equal(err, null, 'No error')
       t.equal(val, DOW_VALUE2, 'Amount is correct')
       t.equal(after2, true)
@@ -82,8 +97,10 @@ test('Can cache multiple values', (t) => {
 })
 
 test('Too old', (t) => {
-  djia('1900-01-01', (err) => {
-    console.log(err)
+  const d = '1900-01-01'
+  mockDate(d, 404, 'error\ndate too much in the past')
+
+  djia(d, (err) => {
     t.equal(err instanceof Error, true, 'Error is an error')
     t.equal(err.message, 'date too much in the past', 'Error says date is too old')
     t.end()
@@ -91,8 +108,10 @@ test('Too old', (t) => {
 })
 
 test('Too new', (t) => {
-  djia('2999-01-01', (err) => {
-    console.log(err)
+  const d = '2999-01-01'
+  mockDate(d, 404, 'error\ndata not available yet')
+
+  djia(d, (err) => {
     t.equal(err instanceof Error, true, 'Error is an error')
     t.equal(err.message, 'data not available yet', 'Error says data isn\'t available')
     t.end()
