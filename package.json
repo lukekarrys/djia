@@ -28,7 +28,7 @@
     "babel-tape-runner": "^2.0.1",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
-    "electron-prebuilt": "^1.4.1",
+    "electron": "^1.6.1",
     "git-validate": "^2.1.4",
     "nock": "^9.0.3",
     "rimraf": "^2.5.4",
