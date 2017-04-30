@@ -1,6 +1,8 @@
 djia
 ===================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/lukekarrys/djia.svg)](https://greenkeeper.io/)
+
 Get the opening Dow Jones Industrial Average for a date, or the most recent opening if the market is closed for that day.
 
 It fetches data from a web service, with the option to cache the results for future requests.
