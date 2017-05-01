@@ -1,8 +1,6 @@
 djia
 ===================
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/lukekarrys/djia.svg)](https://greenkeeper.io/)
-
 Get the opening Dow Jones Industrial Average for a date, or the most recent opening if the market is closed for that day.
 
 It fetches data from a web service, with the option to cache the results for future requests.
@@ -12,6 +10,7 @@ I use this for [xkcd Geohashing](https://xkcd.com/426/).
 [![NPM](https://nodei.co/npm/djia.png)](https://nodei.co/npm/djia/)
 [![Build Status](https://travis-ci.org/lukekarrys/djia.png?branch=master)](https://travis-ci.org/lukekarrys/djia)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+[![Greenkeeper badge](https://badges.greenkeeper.io/lukekarrys/djia.svg)](https://greenkeeper.io/)
 
 
 ## Install
