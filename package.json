@@ -68,7 +68,7 @@
     "compile": "babel src --out-dir lib",
     "lint": "standard",
     "node-test": "babel-tape-runner test/{index,dowHasData}.js | tap-spec",
-    "prepublish": "npm run compile",
+    "prepare": "npm run compile",
     "start": "run-browser test/browser.js",
     "test": "npm run node-test && npm run browser-test",
     "validate": "npm ls"
